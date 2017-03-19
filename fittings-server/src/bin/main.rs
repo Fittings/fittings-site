@@ -9,6 +9,8 @@ use fittings_server::examples;
 fn main() {
     let fittings_rocket = rocket::ignite();
 
-    examples::mount_examples(&fittings_rocket, "/");
+    let routes = examples::get_routes("/");//(fittings_rocket, "/");
+
+    fittings_rocket.mount("/", routes).launch();
     // rocket::ignite().launch()
 }
