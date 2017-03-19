@@ -1,8 +1,9 @@
-extern crate rocket;
+use rocket;
 
 mod servers
 {
     pub mod paste_bin;
+    mod paste_id;
 }
 
 
