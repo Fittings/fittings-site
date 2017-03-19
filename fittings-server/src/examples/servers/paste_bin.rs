@@ -1,6 +1,7 @@
 use examples::servers::paste_id::PasteID;
 use std::io;
 use std::fs::File;
+use std::fs;
 use std::path::Path;
 use rocket;
 use rocket::Data;
@@ -12,11 +13,14 @@ const ID_LENGTH: usize = 3;
 
 #[post("/pastebin", data = "<paste>")]
 fn upload(paste: Data) -> io::Result<String> {
+    fs::create_dir_all(Path::new("upload"))?;
+
     let id = PasteID::new(ID_LENGTH);
     let filename = format!("upload/{id}", id = id);
     let url = format!("{host}/{id}\n", host = HOST, id = id);
 
     paste.stream_to_file(Path::new(&filename))?;
+
     Ok(url)
 }
 
