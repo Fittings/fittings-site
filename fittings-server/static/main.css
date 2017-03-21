@@ -11,19 +11,21 @@ body { /* or any parent wrapper */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-weight: 700;
 }
 
 #main-header  {
-    box-shadow: 0 1px 0 rgba(12,13,14,0.15);
+    box-shadow: 0 2px 5px rgba(0,0,0,.26);
     top: 0;
     left: 0;
     width: 100%;
-    min-width: 1090px;
-    z-index: 1030;
-    background-color: #fafafb;
+    min-width: 1000px;
+    /*! z-index: 1030; */
     transition: box-shadow cubic-bezier(.165, .84, .44, 1) .25s;
     height: 60px;
     box-sizing: border-box;
+
+    background-color: #EFEFEF;
 }
 
 .logo {
@@ -37,6 +39,7 @@ body { /* or any parent wrapper */
     overflow: hidden;
     margin-left: 10px;
     margin-right: 10px;
+    border: black;
 }
 
 .header-title {
@@ -58,7 +61,7 @@ body { /* or any parent wrapper */
     outline: 0;
 }
 
-.header-nav a {
+a {
     font-weight: 700;
     text-decoration: none;
     color: black;
@@ -71,9 +74,10 @@ body { /* or any parent wrapper */
 }
 
 .header-centre {
-    margin-top: 10px;
-    margin-bottom: 10px;
     height: 40px;
+    max-width: 1000px;
+    width: 70%;
+    margin: 10px auto 10px auto;
 }
 
 
@@ -81,6 +85,7 @@ body { /* or any parent wrapper */
     background: #242729;
     padding-top: 20px;
     color: #C0FFEE;
+    position: relative;
 }
 
 #content {
@@ -89,9 +94,15 @@ body { /* or any parent wrapper */
 
 #centre-clear {
     height: 100%;
+    max-width: 1000px;
+    width: 70%;
+    margin: 0px auto 0px auto;
+    border-left: 1px solid #e4e6e8;
+    border-right: 1px solid #e4e6e8;
+
 }
 
-
+div.
 
 .centre {
     margin: 0 auto;
@@ -106,9 +117,13 @@ body { /* or any parent wrapper */
 
 
 #sidebar {
-    box-shadow: 1px 1px 1px rgba(80, 127, 174, 0.2);
+    /*! box-shadow: 1px 1px 1px rgba(80, 127, 174, 0.2); */
     width: 200px;
     height: 100%;
+}
+
+.hor-nav-list {
+    list-style-type: none;
 }
 
 nav.sidebar li {
