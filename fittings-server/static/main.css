@@ -2,17 +2,19 @@
  * CSS for www.fittings.net.nz
  */
 
-body {
-    background-color: white;
-    color: black;
-	font-family: 'Roboto',arial,'Noto Sans Japanese',sans-serif;
+*{ margin:0; box-sizing: border-box; }/* Quick reset */
+
+body { /* or any parent wrapper */
+  background-color: white;
+  color: black;
+  font-family: 'Roboto',arial,'Noto Sans Japanese',sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-nav.header {
-    box-shadow: 0 1px 0 rgba(12,13,14,0.1),0 1px 3px rgba(12,13,14,0.1),0 4px 20px rgba(12,13,14,0.035),0 1px 1px rgba(12,13,14,0.025)
-    border-top: 3px solid #F48024;
+#main-header  {
     box-shadow: 0 1px 0 rgba(12,13,14,0.15);
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -24,22 +26,92 @@ nav.header {
     box-sizing: border-box;
 }
 
-section.content {
-    position: absolute;
-    top: 60px;
-    left: 0px;
-    min-height: 100%;
-    min-width: 100%;
+.logo {
+    height: 40px;
+    width: 40px;
+    float: left;
+    background: url("favicon.ico") no-repeat;
+    background-size: 40px;
+    direction: ltr;
+    text-indent: -9999px;
+    overflow: hidden;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-nav.sidebar {
-    position: absolute;
-    box-shadow: 1px 1px 1px rgba(80, 127, 174, 0.2);
+.header-title {
+    float: left;
+}
+
+.header-nav {
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.header-nav > ul {
+    list-style: none;
+}
+.header-nav > li::hover {
+    background-color: #eee;
+    outline: 0;
+}
+
+.header-nav a {
+    font-weight: 700;
+    text-decoration: none;
+    color: black;
+}
+
+
+
+#main-header::after {
+    content: ' ';
+}
+
+.header-centre {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+}
+
+
+#main-footer {
+    background: #242729;
+    padding-top: 20px;
+    color: #C0FFEE;
+}
+
+#content {
+  flex: 1;
+}
+
+#centre-clear {
     height: 100%;
+}
+
+
+
+.centre {
+    margin: 0 auto;
+    max-width: 1400px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+
+
+
+
+
+#sidebar {
+    box-shadow: 1px 1px 1px rgba(80, 127, 174, 0.2);
     width: 200px;
+    height: 100%;
 }
 
 nav.sidebar li {
     margin-top: 10px;
     margin-left: 20px;
-}
+} */
