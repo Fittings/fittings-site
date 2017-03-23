@@ -7,15 +7,13 @@ extern crate fittings_server;
 use fittings_server::examples;
 
 fn main() {
-    let fittings_rocket = rocket::ignite();
-
-    let mut routes = examples::get_routes("/");
-    routes.extend(routes![index, get_fav_icon, get_static_files]);
-
-    fittings_rocket.mount("/", routes).launch();
+    rocket().launch();
 }
 
-
+fn rocket() -> rocket::Rocket {
+    let rocket = rocket::ignite().mount("/", routes![index, get_fav_icon, get_static_files]);
+    examples::rocket(rocket, "/")
+}
 
 
 //ZZZ TODO Move static files out
@@ -31,7 +29,7 @@ fn get_static_files(file: PathBuf) -> Option<NamedFile> {
 
 #[get("/favicon.ico")]
 fn get_fav_icon() -> Option<NamedFile> {
-    NamedFile::open(Path::new("static/favicon.ico")).ok()
+    NamedFile::open(Path::new("static/favicon.png")).ok()
 }
 
 // #[get("/main.css")]
