@@ -48,7 +48,9 @@ fn index() -> &'static str {
     "
 }
 
-
+pub fn rocket(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {
+    rocket.mount(base_address, routes![index, retrieve, upload])
+}
 pub fn get_routes() -> Vec<rocket::Route> {
     routes![index, retrieve, upload]
 }
