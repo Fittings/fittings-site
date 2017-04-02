@@ -1,4 +1,4 @@
-use examples::servers::paste_id::PasteID;
+use examples::paste_bin::paste_id::PasteID;
 use std::io;
 use std::fs::File;
 use std::fs;
@@ -10,6 +10,12 @@ use rocket::response::content;
 
 const HOST: &'static str = "http://localhost:8000";
 const ID_LENGTH: usize = 3;
+
+
+pub fn mount(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {
+    rocket.mount(base_address, routes![index, retrieve, upload])
+}
+
 
 #[post("/pastebin", data = "<paste>")]
 fn upload(paste: Data) -> io::Result<String> {
@@ -46,11 +52,4 @@ fn index() -> &'static str {
 
           retrieves the content for the paste with id `<id>`
     "
-}
-
-pub fn rocket(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {
-    rocket.mount(base_address, routes![index, retrieve, upload])
-}
-pub fn get_routes() -> Vec<rocket::Route> {
-    routes![index, retrieve, upload]
 }
