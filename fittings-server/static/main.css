@@ -103,7 +103,7 @@ a {
 }
 
 .page-intro {
-    background-image: url(/page-head.jpg);
+    background-image: url(/static/page-head.jpg);
     height: 70vh;
 }
 
