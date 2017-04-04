@@ -1,8 +1,1 @@
-target/
-
-**/*.rs.bk
-
-Cargo.lock
-
-upload
-build
+dist

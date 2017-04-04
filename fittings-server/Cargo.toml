@@ -4,6 +4,10 @@ version = "0.1.0"
 authors = ["Cameron Milsom <cameron.milsom@gmail.com>"]
 repository = "https://github.com/Fittings/fittings-site"
 
+[[bin]]
+name = "fittings-server"
+path = "src/bin/main.rs"
+
 [dependencies]
 rocket = "0.2.4"
 rocket_contrib = "0.2.4"

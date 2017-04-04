@@ -1,0 +1,7 @@
+target/
+upload
+
+**/*.rs.bk
+
+Cargo.lock
+
