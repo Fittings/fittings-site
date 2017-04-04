@@ -18,7 +18,7 @@ fn get_static_files(file: PathBuf) -> Option<NamedFile> {
 
 #[get("/favicon.ico")]
 fn get_fav_icon() -> Option<NamedFile> {
-    NamedFile::open(Path::new("static/favicon.png")).ok()
+    NamedFile::open(Path::new("static/favicon.ico")).ok()
 }
 
 
