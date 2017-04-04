@@ -5,6 +5,7 @@ authors = ["Cameron Milsom <cameron.milsom@gmail.com>"]
 repository = "https://github.com/Fittings/fittings-site"
 
 [dependencies]
-rocket = "0.2.2"
-rocket_codegen = "0.2.2"
+rocket = "0.2.4"
+rocket_contrib = "0.2.4"
+rocket_codegen = "0.2.4"
 rand = "0.3"
