@@ -30,7 +30,7 @@ module.exports = {
 
     plugins: [
       new HtmlWebpackPlugin({
-          hash: true,
+          hash: false, 
           template: path.join(__dirname, '/src/index.html'),
           filename: 'index.html',
           inject: 'body'
