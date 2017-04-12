@@ -16,6 +16,7 @@ fn get_static_files(file: PathBuf) -> Option<NamedFile> {
     NamedFile::open(path).ok()
 }
 
+//ZZZ TODO This needs to be setup correctly. But I need to wait on a particular changes.
 // #[get("/<file..>?<_anything>")]
 // fn get_static_files_param(file: PathBuf, _anything: Ignored) -> Option<NamedFile> {
 //     get_static_files(file)
