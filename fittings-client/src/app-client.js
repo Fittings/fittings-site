@@ -1,16 +1,9 @@
-/* global window document */
 
-import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './components/app'
+import Header from './components/standard/header'
 
 
-const AppClient = () => (
-  <Router>
-    <App />
-  </Router>
-);
-
-window.onload = () => {
-  render(<h1>Hello Cameron</h1>);
-};
+// ReactDOM.render(<Header />, document.getElementById('body'))
+ReactDOM.render(<App />, document.getElementById('root'))

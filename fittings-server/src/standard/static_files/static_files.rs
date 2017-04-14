@@ -5,16 +5,11 @@ use rocket::response::NamedFile;
 
 
 pub fn mount(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {
-<<<<<<< HEAD
-    rocket.mount(base_address, routes![get_static_files, get_static_files_param, index])
-=======
     rocket.mount(base_address, routes![get_static_files, index])
->>>>>>> master
 }
 
 
 
-<<<<<<< HEAD
 #[get("/<file..>")]
 fn get_static_files(file: PathBuf) -> Option<NamedFile> {
     let path = Path::new("client/public/").join(file);
@@ -27,13 +22,6 @@ fn get_static_files(file: PathBuf) -> Option<NamedFile> {
 //     get_static_files(file)
 // }
 
-=======
-#[get("/<file..>?<_anything>")]
-fn get_static_files(file: PathBuf, _anything: Ignored) -> Option<NamedFile> {
-    NamedFile::open(Path::new("client/public/").join(file)).ok()
-}
-
->>>>>>> master
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
