@@ -1,6 +1,14 @@
-.icon-github:before {
-
-	content: url("./static/public_domain/GitHub-Mark-32px.png");
+.icon-github {
 }
+
+#root section {
+	background: #fff;
+text-align: left;
+width: 90%;
+max-width: 960px;
+margin: 0 auto;
+padding: 80px 0 0;
+}
+
 
 @import "../node_modules/picnic/picnic.min.css"
