@@ -12,7 +12,7 @@ pub fn mount(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {
 
 #[get("/<file..>")]
 fn get_static_files(file: PathBuf) -> Option<NamedFile> {
-    let path = Path::new("client/public/").join(file);
+    let path = Path::new("./").join(file);
     NamedFile::open(path).ok()
 }
 
@@ -25,7 +25,7 @@ fn get_static_files(file: PathBuf) -> Option<NamedFile> {
 
 #[get("/")]
 fn index() -> io::Result<NamedFile> {
-    NamedFile::open("client/public/index.html")
+    NamedFile::open("./index.html")
 }
 
 
