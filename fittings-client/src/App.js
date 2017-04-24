@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './App.css';
 import Header from './standard/header.js';
-import Gallery from './picture-view/gallery.js';
+import Gallery from './picture-view/gallery.jsx';
 
 import image_collection from "./picture-view/images";
 

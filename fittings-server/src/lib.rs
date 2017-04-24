@@ -8,3 +8,4 @@ extern crate rand;
 
 pub mod examples;
 pub mod standard;
+pub mod uptime;
