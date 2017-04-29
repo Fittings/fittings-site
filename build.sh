@@ -2,12 +2,10 @@
 
 #Build Server
 cd fittings-server
-cargo build --release
+cargo install --force
+cd ..
 
-#Move Server to dist.
-cd .. 
-mkdir -p dist/server/
-cp -r fittings-server/target/release/* dist/server/ 
+mkdir -p ./build
 
 #Build Client
 cd fittings-client
@@ -15,5 +13,9 @@ yarn build
 
 #Move Client to dist.
 cd ..
-mkdir -p dist/client/
-cp -R fittings-client/dist/* dist/client/
+cp -R fittings-client/build/* ./build
+
+
+#Database
+cd fittings-data
+source ./update-database.sh

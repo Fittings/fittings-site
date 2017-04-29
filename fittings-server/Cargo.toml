@@ -9,7 +9,7 @@ name = "fittings-server"
 path = "src/bin/main.rs"
 
 [dependencies]
-rocket = "0.2.4"
-rocket_contrib = "0.2.4"
-rocket_codegen = "0.2.4"
+rocket = "0.2.6"
+rocket_contrib = "0.2.6"
+rocket_codegen = "0.2.6"
 rand = "0.3"
