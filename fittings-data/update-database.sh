@@ -8,7 +8,7 @@ if [ ! -f ../build/fittings.db ];
     mkdir -p ../build
 
     echo "Running update script: 000.001.history.sql" #ZZZ TODO Loop through like the update function.
-    sqlite3 ../build/fittings.db < ./init-scripts/000.001.history.sql
+    sqlite3 ../build/fittings.db < ./update-scripts/000.001.history.sql
     sqlite3 ../build/fittings.db "INSERT INTO update_history(major_version, minor_version, description, script_type, script_name, run_time)
                                 VALUES(000, 001, \"history\",  'INIT', \"000.001.history.sql\",  $(date +%s))"
   else
