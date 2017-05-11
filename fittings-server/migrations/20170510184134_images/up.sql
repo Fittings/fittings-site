@@ -1,5 +1,5 @@
 CREATE TABLE images(
-  id INTEGER,
-  image  BLOB,
+  id INTEGER NOT NULL,
+  image  NOT NULL,
   PRIMARY KEY(id DESC)
 );
