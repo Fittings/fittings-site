@@ -23,14 +23,13 @@ pub fn establish_connection() -> SqliteConnection {
 
 
 use self::models::{Image, NewImage};
-pub fn create_image(conn: &SqliteConnection, image: Vec<u8>) -> Vec<u8> {
+pub fn create_image(conn: &SqliteConnection, image: Vec<u8>) {
     use self::schema::images;
 
     let new_image = NewImage {
         image: image,
     };
 
-    diesel::insert(&new_image).into(images::table)
-                              .get_results(conn)
-                              .expect("Error saving image")
+    diesel::insert(&new_image).into(images::table);
+
 }

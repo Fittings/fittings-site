@@ -21,7 +21,7 @@ fn main() {
 
     println!("Load all images!");
     for an_image in results {
-        println!("{}", an_image.id.unwrap());
+        println!("{}", an_image.id);
     }
     println!("Loaded all images...");
 
