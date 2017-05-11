@@ -30,6 +30,6 @@ pub fn create_image(conn: &SqliteConnection, image: Vec<u8>) {
         image: image,
     };
 
-    diesel::insert(&new_image).into(images::table);
+    diesel::insert(&new_image).into(images::table).execute(conn);
 
 }
