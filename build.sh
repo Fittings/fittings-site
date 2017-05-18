@@ -1,11 +1,14 @@
 #!/bin/bash
 
+mkdir -p ./build
+
+
 #Build Server
 cd fittings-server
 cargo install --force
+cp .env ../build/.env
 cd ..
 
-mkdir -p ./build
 
 #Build Client
 cd fittings-client
@@ -16,6 +19,3 @@ cd ..
 cp -R fittings-client/build/* ./build
 
 
-#Database
-cd fittings-data
-source ./update-database.sh

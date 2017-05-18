@@ -1,7 +1,5 @@
 use rocket;
 use std::io;
-use std::path::{Path, PathBuf};
-use rocket::response::NamedFile;
 
 
 pub fn mount(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {

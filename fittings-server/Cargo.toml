@@ -9,6 +9,9 @@ name = "fittings-server"
 path = "src/bin/main.rs"
 
 [dependencies]
+lazy_static = "0.2.8"
+dotenv = "0.8.0"
+
 #Rocket
 rocket = "0.2.6"
 rocket_contrib = "0.2.6"
@@ -17,6 +20,6 @@ rocket_codegen = "0.2.6"
 #Diesel
 diesel = { version = "0.12.0", features = ["sqlite"] }
 diesel_codegen = { version = "0.12.0", features = ["sqlite"] }
-dotenv = "0.8.0"
-
+r2d2 = "0.7.2"
+r2d2-diesel = "0.13.0"
 rand = "0.3"
