@@ -17,7 +17,6 @@ use r2d2_diesel::ConnectionManager;
 
 lazy_static! {
     pub static ref DB_CON_POOL: Pool<ConnectionManager<SqliteConnection>> = create_db_pool();
-    static ref COUNT: u32 = 21;
 }
 
 fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>> {
