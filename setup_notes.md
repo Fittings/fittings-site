@@ -38,10 +38,13 @@ These notes are specifically so I can easily replicate the setup process.
 ## Support for multiple connections.
 To support multiple threads accessing the database we setup a connection pool.
 
+
 Add to your rust server the following crates:
 [lazy_static](https://crates.io/crates/lazy_static),
 [r2d2](https://crates.io/crates/r2d2),
 [r2d2-diesel](https://crates.io/crates/r2d2-diesel)
+
+
 
 
 In the database module add the following code. This will allow
@@ -62,11 +65,35 @@ fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>> {
 }
 ```
 
+Sources: 
+* ***killercup***: [diesel issue #555](https://github.com/diesel-rs/diesel/issues/555#issuecomment-269482063)
+* ***mgattozzi***: [diesel-powered-rocket](https://mgattozzi.com/diesel-powered-rocket)
+
 
 
 # Client-Side
 
 ## ReactJS Setup.
+1. Install Yarn:
+```bash
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get update && sudo apt-get install yarn
+```
+
+2. Install NPM 
+```bash
+sudo apt-get update
+sudo apt-get install nodejs
+
+sudo apt-get install npm
+```
+
+  * Fix [/usr/bin/env: node: No such file or directory](http://javascript.tutorialhorizon.com/2015/03/01/troubleshooting-usrbinenv-node-no-such-file-or-directory/) error that will occur in future ```yarn build``` call.
+      ```bash
+      sudo ln –s /usr/bin/nodejs /usr/bin/node
+      ```
 
 # Reverse Proxy and HTTPS setup.
 
@@ -74,5 +101,3 @@ fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>> {
 
 
 
-REFERENCES:
-https://mgattozzi.com/diesel-powered-rocket
