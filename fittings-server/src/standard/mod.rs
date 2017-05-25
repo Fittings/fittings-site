@@ -1,18 +1,17 @@
-use rocket;
+use rocket::Rocket;
 
-mod static_files {
+mod rest {
     pub mod static_files;
-}
-
-mod image_loader {
     pub mod image_loader;
 }
 
-pub fn mount(rocket: rocket::Rocket, base_address: &str) -> rocket::Rocket {
+
+/// Mounts all the standard REST routes to the rocket instance.
+pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
     let address = [base_address, ""].concat(); //Standard mounts on the base address
 
-    let rocket = static_files::static_files::mount(rocket, address.as_str());
-    let rocket = image_loader::image_loader::mount(rocket, address.as_str());
+    let rocket = rest::static_files::mount(rocket, address.as_str());
+    let rocket = rest::image_loader::mount(rocket, address.as_str());
 
     rocket
 }

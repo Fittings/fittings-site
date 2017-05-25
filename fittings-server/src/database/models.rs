@@ -1,13 +1,14 @@
+use super::schema::image_locations;
+
 
 #[derive(Queryable)]
-pub struct Image {
+pub struct ImageLocation {
     pub id: i32,
-    pub image: Vec<u8>, //ZZZ TODO These really shouldn't be nullable.
+    pub url: String,
 }
 
-use super::schema::images;
 #[derive(Insertable)]
-#[table_name="images"]
-pub struct NewImage {
-    pub image: Vec<u8>,
+#[table_name="image_locations"]
+pub struct SubmitImageLocation {
+    pub url: String,
 }

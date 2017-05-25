@@ -31,16 +31,24 @@ fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>> {
 }
 
 
+use r2d2::PooledConnection;
+pub fn get_db_connection() -> PooledConnection<ConnectionManager<SqliteConnection>> {
+    match DB_CON_POOL.get() {
+        Ok(conn) => conn,
+        Err(e) => panic!("{}", e),
+    }
+}
 
-use self::models::NewImage;
-pub fn create_image(conn: &SqliteConnection, image: Vec<u8>) {
-    use self::schema::images;
 
-    let new_image = NewImage {
-        image: image,
+
+use self::models::SubmitImageLocation;
+pub fn create_image(conn: &SqliteConnection, image_loc: String) {
+    use self::schema::image_locations;
+
+    let new_image = SubmitImageLocation {
+        url: image_loc,
     };
 
-    //ZZZ TODO What is the result object?
-    let result = diesel::insert(&new_image).into(images::table).execute(conn);
-    println!("{}", result.unwrap()); //result is: std::result::Result<usize, diesel::result::Error>
+    let result = diesel::insert(&new_image).into(image_locations::table).execute(conn);
+    println!("{}", result.unwrap());
 }
