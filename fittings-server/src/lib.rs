@@ -3,6 +3,7 @@
 #![plugin(rocket_codegen)]
 
 #[macro_use] extern crate lazy_static;
+extern crate names;
 
 extern crate rocket;
 extern crate rocket_contrib;
