@@ -1,19 +1,19 @@
 use rocket::{Data, Rocket};
 use rocket::response::NamedFile;
-use diesel::prelude::*;
-use std::io;
+//use diesel::prelude::*;
+//use std::io;
 use std::path::Path;
-use diesel;
-use database;
-use database::models::{SubmitImageLocation, ImageLocation};
-use database::schema::image_locations::dsl::*;
-use names::Generator;
-
+//use diesel;
+//use database;
+//use database::models::{SubmitImageLocation, ImageLocation};
+//use database::schema::image_locations::dsl::*;
+//use names::Generator;
+//
 
 
 /// Mounts all the image loading REST routes to the rocket instance.
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![get_dynamic_image, upload_image])
+    rocket.mount(base_address, routes![get_dynamic_image])
 }
 
 
@@ -24,27 +24,27 @@ fn get_dynamic_image(image_name: String) -> Option<NamedFile> {
     NamedFile::open(Path::new(path.as_str())).ok()
 }
 
-#[post("/image/upload", format = "image/png", data = "<image>")]
-fn upload_image(image: Data) -> io::Result<String> {
-    let conn = database::get_db_connection();
-    let mut generator = Generator::default();
-    let name = generator.next().unwrap();
-
-    let image_location = SubmitImageLocation {
-        url: name,
-    };
-
-    diesel::insert(&image_location)
-        .into(image_locations)
-        .execute(&*conn)
-        .expect("upload image failed to insert");
-
-    //let image_loc : ImageLocation = image_locations.order(id.desc()).first(&*conn).unwrap();
-
-    image.stream_to_file(Path::new(format!("./static/media/{}", &image_location.url).as_str()))?;
-
-    Ok(image_location.url)
-}
+//#[post("/image/upload", format = "image/png", data = "<image>")]
+//fn upload_image(image: Data) -> io::Result<String> {
+//    let conn = database::get_db_connection();
+//    let mut generator = Generator::default();
+//    let name = generator.next().unwrap();
+//
+//    let image_location = SubmitImageLocation {
+//        url: name,
+//    };
+//
+//    diesel::insert(&image_location)
+//        .into(image_locations)
+//        .execute(&*conn)
+//        .expect("upload image failed to insert");
+//
+//    //let image_loc : ImageLocation = image_locations.order(id.desc()).first(&*conn).unwrap();
+//
+//    image.stream_to_file(Path::new(format!("./static/media/{}", &image_location.url).as_str()))?;
+//
+//    Ok(image_location.url)
+//}
 
 
 //
