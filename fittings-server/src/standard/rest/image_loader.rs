@@ -7,7 +7,7 @@ use diesel;
 use database;
 use database::models::{SubmitImageLocation, ImageLocation};
 use database::schema::image_locations::dsl::*;
-use names::{Generator, Name};
+use names::Generator;
 
 
 
@@ -18,14 +18,13 @@ pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
 
 
 
-#[get("/image/<image_id>", rank=1)]
-fn get_dynamic_image(image_id: i32) -> Option<NamedFile> {
-//    ["./image/", image_id.to_string()].concat()
-    let path = format!("./image/public/{}", image_id);
+#[get("/image/<image_name>", rank=1)]
+fn get_dynamic_image(image_name: String) -> Option<NamedFile> {
+    let path = format!("./static/media/{}", image_name);
     NamedFile::open(Path::new(path.as_str())).ok()
 }
 
-#[post("/image", format = "image/png", data = "<image>")]
+#[post("/image/upload", format = "image/png", data = "<image>")]
 fn upload_image(image: Data) -> io::Result<String> {
     let conn = database::get_db_connection();
     let mut generator = Generator::default();
