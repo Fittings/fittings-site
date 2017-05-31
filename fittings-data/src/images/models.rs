@@ -1,4 +1,5 @@
-use super::schema::image_locations;
+use database::schema::image_locations;
+
 
 
 #[derive(Queryable)]

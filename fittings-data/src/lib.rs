@@ -11,3 +11,4 @@ extern crate r2d2_diesel;
 extern crate dotenv;
 
 pub mod database;
+pub mod images;
