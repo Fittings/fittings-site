@@ -28,7 +28,6 @@ fn upload_image(image: Data) -> io::Result<String> {
     let mut image_bytes : Vec<u8> = Vec::new();
     image.open().read_to_end(&mut image_bytes)?;
 
-
     let mut generator = Generator::default();
     let name = generator.next().unwrap();
     let id : String = images::upload_image(name, image_bytes)?;
