@@ -1,25 +1,28 @@
 use rocket::{Data, Rocket};
-use rocket::response::NamedFile;
 use std::io;
 use std::io::Read;
-use std::path::Path;
+use std::fs::File;
 use names::Generator;
 use fittings_data::images;
 
 
 
+
+
+
 /// Mounts all the image loading REST routes to the rocket instance.
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![get_dynamic_image, upload_image])
+    rocket.mount(base_address, routes![load_image, upload_image])
 }
 
 
 
+/// Loads the image based on the unique upload image id it was given.
 #[get("/image/<image_name>", rank=1)]
-fn get_dynamic_image(image_name: String) -> Option<NamedFile> {
-    let path = format!("./static/media/{}", image_name);
-    NamedFile::open(Path::new(path.as_str())).ok()
+fn load_image(image_name: String) -> Option<File> {
+    images::load_image(image_name)
 }
+
 
 /// Uploads an image.
 /// Returns the identifier which can be used to retriece the image from get_dynamic_image(...)
