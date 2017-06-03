@@ -14,11 +14,6 @@ lazy_static = "0.2.8"
 dotenv = "0.8.0"
 
 
-#Rocket
-rocket = "0.2.7"
-rocket_contrib = "0.2.7"
-rocket_codegen = "0.2.7"
-
 names = "0.11.0"
 
 #Diesel

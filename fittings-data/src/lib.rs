@@ -1,6 +1,7 @@
 #![feature(plugin)]
 #![feature(custom_derive)]
-#![plugin(rocket_codegen)]
+#![feature(custom_attribute)]
+
 
 
 #[macro_use] extern crate lazy_static;
@@ -10,5 +11,8 @@ extern crate r2d2;
 extern crate r2d2_diesel;
 extern crate dotenv;
 
+
+
 pub mod database;
 pub mod images;
+pub mod galleries;

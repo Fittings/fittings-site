@@ -20,15 +20,15 @@ static IMAGE_PATH : &'static str = "./static/media";
 pub fn load_image(file_name: String) -> Option<File> {
     let conn = database::get_db_connection();
 
-    let image_location : Result<ImageLocation, diesel::result::Error> = image_locations.filter(name.eq(file_name))
-        .first::<ImageLocation>(&*conn);
+    let image_location : ImageLocation = match image_locations.filter(name.eq(file_name)).
+        first::<ImageLocation>(&*conn) {
+        Ok(image_location) => image_location,
+        Err(_) => return None,
+    };
 
-    match image_location {
-        Ok(location) => match File::open(location.url) {
-            Ok(file) => Some(file),
-            _ => None,
-        },
-        _ => None,
+    match File::open(image_location.url) {
+        Ok(file) => Some(file),
+        Err(_) => None,
     }
 }
 

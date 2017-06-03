@@ -1,7 +1,8 @@
 use database::schema::image_locations;
 
 
-#[derive(Queryable)]
+#[derive(Queryable, Associations, Identifiable)]
+#[table_name="image_locations"]
 pub struct ImageLocation {
     pub id: i32,
     pub name: String,
