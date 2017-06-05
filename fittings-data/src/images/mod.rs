@@ -33,6 +33,8 @@ pub fn load_image(file_name: String) -> Option<File> {
 }
 
 
+
+
 /// Uploads the image to the server with the given filename.
 /// Returns the identifier of the image.
 pub fn upload_image(image_name: String, image: Vec<u8>) -> io::Result<String> {
