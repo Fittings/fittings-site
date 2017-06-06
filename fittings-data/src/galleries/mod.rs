@@ -14,9 +14,9 @@ pub mod models;
 /// Doesn't contain any actual images.
 pub fn get_all_image_galleries() -> Option<Vec<Gallery>>
 {
-    let conn = database::get_db_connection();
+    let conn = &*database::get_db_connection();
 
-    let stored_galleries = match galleries.load::<Gallery>(&*conn) {
+    let stored_galleries = match galleries.load::<Gallery>(conn) {
         Ok(vec) => vec,
         Err(_) => return None,
     };
@@ -25,13 +25,13 @@ pub fn get_all_image_galleries() -> Option<Vec<Gallery>>
 }
 
 /// Loads all the Image Locations for a Gallery
-pub fn get_images_in_gallery(gallery : &Gallery) -> Option<Vec<ImageLocation>> {
-    let conn = database::get_db_connection();
+pub fn get_images_in_gallery(gallery_id : i32) -> Option<Vec<ImageLocation>> {
+    let conn = &*database::get_db_connection();
 
     let images = match image_locations::table
         .inner_join(gallery_images::table)
-        .filter(gallery_images::gallery_id.eq(gallery.id))
-        .load::<(ImageLocation, GalleryImage)>(&*conn) {
+        .filter(gallery_images::gallery_id.eq(gallery_id))
+        .load::<(ImageLocation, GalleryImage)>(conn) {
         Ok(result) => result,
         Err(_) => return None,
     };
@@ -42,7 +42,7 @@ pub fn get_images_in_gallery(gallery : &Gallery) -> Option<Vec<ImageLocation>> {
     }
 
     match image_locations.is_empty() {
-        true => Some(image_locations),
-        false => None,
+        true => None,
+        false => Some(image_locations),
     }
 }

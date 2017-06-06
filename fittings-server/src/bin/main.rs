@@ -3,6 +3,7 @@
 
 extern crate rocket;
 extern crate fittings_server;
+#[macro_use] extern crate serde_derive;
 
 use fittings_server::examples;
 use fittings_server::standard;

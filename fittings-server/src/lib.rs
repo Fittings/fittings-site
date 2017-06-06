@@ -1,12 +1,15 @@
 #![feature(plugin)]
 #![plugin(rocket_codegen)]
 
+#[macro_use] extern crate serde_derive;
+#[macro_use] extern crate serde_json;
+
 extern crate names;
 extern crate fittings_data;
 extern crate rocket;
 extern crate rocket_contrib;
 extern crate rand;
-extern crate serde_json;
+
 
 pub mod examples;
 pub mod standard;
