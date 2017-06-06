@@ -16,7 +16,6 @@ lazy_static! {
 
 
 
-
 fn create_db_pool() -> Pool<ConnectionManager<SqliteConnection>> {
     dotenv().ok();
 
@@ -36,3 +35,4 @@ pub fn get_db_connection() -> PooledConnection<ConnectionManager<SqliteConnectio
         Err(e) => panic!("{}", e),
     }
 }
+
