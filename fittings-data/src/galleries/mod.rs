@@ -20,8 +20,20 @@ pub fn get_all_image_galleries() -> Option<Vec<Gallery>>
         Ok(vec) => vec,
         Err(_) => return None,
     };
-
+    
     Some(stored_galleries)
+}
+
+pub fn get_first_image_in_gallery(gallery_id : i32) -> Option<ImageLocation> {
+    let conn = &*database::get_db_connection();
+
+    match image_locations::table
+        .inner_join(gallery_images::table)
+        .filter(gallery_images::gallery_id.eq(gallery_id))
+        .first::<(ImageLocation, GalleryImage)>(conn) {
+        Ok(result) => Some(result.0),
+        Err(_) => None,
+    }
 }
 
 /// Loads all the Image Locations for a Gallery
@@ -36,6 +48,7 @@ pub fn get_images_in_gallery(gallery_id : i32) -> Option<Vec<ImageLocation>> {
         Err(_) => return None,
     };
 
+    //ZZZ TODO Learn how to do this functional style.
     let mut image_locations = Vec::new();
     for img in images {
         image_locations.push(img.0) //Only collect the ImageLocations

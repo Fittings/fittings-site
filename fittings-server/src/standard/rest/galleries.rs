@@ -14,6 +14,7 @@ struct Gallery {
     id: i32,
     name: String,
     description: String,
+    preview_url: Option<String>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -30,14 +31,19 @@ fn get_galleries() -> Option<JSON<Value>> {
         None => return None,
     };
 
-
     let mut gallery_vals : Vec<Gallery> = Vec::new();
 
     for gallery in galleries {
+        let preview_url = match galleries::get_first_image_in_gallery(gallery.id) {
+            Some(img_loc) => Some(img_loc.url),
+            None => None,
+        };
+
         let gallery_val = Gallery {
             id : gallery.id,
             name : gallery.name,
             description : gallery.description,
+            preview_url: preview_url,
         };
 
         gallery_vals.push(gallery_val);
