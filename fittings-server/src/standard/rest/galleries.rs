@@ -1,12 +1,15 @@
 use rocket::Rocket;
 use rocket_contrib::{JSON, Value};
 use fittings_data::galleries;
+use std::io;
+use std::io::Error;
+use std::io::ErrorKind;
 
 
 
 /// Mounts all the image loading REST routes to the rocket instance.
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![get_galleries, get_gallery_images])
+    rocket.mount(base_address, routes![get_galleries, get_gallery_images, upload_gallery])
 }
 
 #[derive(Serialize, Deserialize)]
@@ -90,4 +93,17 @@ fn get_gallery_images(gallery_id : i32) -> Option<JSON<Value>> {
         id : gallery_id,
         galleries : image_vals,
     })))
+}
+
+/// Uploads an image.
+/// Returns the identifier which can be used to retriece the image from get_dynamic_image(...)
+#[post("/gallery/upload/<name>/<description>")]
+fn upload_gallery(name: String, description: Option<String>) -> io::Result<String> {
+    let description = match description {
+        Some(desc) => desc,
+        None => "".to_string()
+    };
+    println!("Attempting to upload: {}: {}", name, description);
+
+    Err(Error::new(ErrorKind::Other, "oh no!"))
 }
