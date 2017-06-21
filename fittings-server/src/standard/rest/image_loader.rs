@@ -25,7 +25,7 @@ fn load_image(image_name: String) -> Option<File> {
 
 
 /// Uploads an image.
-/// Returns the identifier which can be used to retriece the image from get_dynamic_image(...)
+/// Returns the identifier which can be used to retrieve the image from get_dynamic_image(...)
 #[post("/image/upload", format = "image/png", data = "<image>")]
 fn upload_image(image: Data) -> io::Result<String> {
     let mut image_bytes : Vec<u8> = Vec::new();

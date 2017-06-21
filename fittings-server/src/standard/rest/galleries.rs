@@ -1,12 +1,13 @@
-use rocket::Rocket;
+use rocket::{Data, Rocket};
 use rocket_contrib::{JSON, Value};
 use fittings_data::galleries;
+use rocket::http::Status;
 
 
 
 /// Mounts all the image loading REST routes to the rocket instance.
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![get_galleries, get_gallery_images])
+    rocket.mount(base_address, routes![get_galleries, get_gallery_images, upload_gallery, upload_gallery_image])
 }
 
 #[derive(Serialize, Deserialize)]
@@ -90,4 +91,44 @@ fn get_gallery_images(gallery_id : i32) -> Option<JSON<Value>> {
         id : gallery_id,
         galleries : image_vals,
     })))
+}
+
+
+#[derive(Serialize)]
+struct GalleryUploadResponse {
+    id: i32,
+    name: String,
+    description: String,
+}
+
+#[derive(Deserialize)]
+struct CreateGallery{
+    name: String,
+    description: Option<String>,
+}
+
+#[post("/upload/gallery", data="<gallery>")]
+fn upload_gallery(gallery: JSON<CreateGallery>) -> Result<JSON<GalleryUploadResponse>, Status> {
+//    let description = match description {
+//        Some(desc) => desc,
+//        None => "".to_string()
+//    };
+//    println!("Attempting to upload gallery: {}: {}", name, description);
+//
+//    let response = GalleryUploadResponse {
+//        id: 0,
+//        name: name,
+//        description: description,
+//    };
+
+//    Ok(JSON(response));
+    Err(Status::NotImplemented)
+}
+
+#[post("/upload/gallery/<gallery_id>/image",  data = "<image>")]
+fn upload_gallery_image(gallery_id: String, image: Data) -> Result<JSON<Value>, Status> {
+    println!("Attempting to upload gallery image: {}", gallery_id);
+
+    //    Ok(JSON(response));
+    Err(Status::NotImplemented)
 }

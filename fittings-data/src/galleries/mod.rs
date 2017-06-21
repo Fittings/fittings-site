@@ -20,7 +20,7 @@ pub fn get_all_image_galleries() -> Option<Vec<Gallery>>
         Ok(vec) => vec,
         Err(_) => return None,
     };
-    
+
     Some(stored_galleries)
 }
 
