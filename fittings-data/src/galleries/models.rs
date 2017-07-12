@@ -11,6 +11,16 @@ pub struct Gallery {
     pub description: String,
 }
 
+
+#[derive(Insertable)]
+#[table_name = "galleries"]
+pub struct NewGallery {
+    pub name: String,
+    pub description: String,
+}
+
+
+
 #[derive(Identifiable, Queryable, Associations)]
 #[primary_key(gallery_id, image_id)]
 #[table_name = "gallery_images"]

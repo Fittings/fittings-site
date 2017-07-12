@@ -1,9 +1,11 @@
-use self::models::{Gallery, GalleryImage};
+use self::models::{NewGallery, Gallery, GalleryImage};
 use images::models::{ImageLocation};
 use diesel::prelude::*;
+use diesel;
+use diesel::result::Error;
 use database;
 use database::schema::galleries::dsl::*;
-use database::schema::{gallery_images, image_locations};
+use database::schema::{galleries, gallery_images, image_locations};
 
 
 
@@ -58,4 +60,26 @@ pub fn get_images_in_gallery(gallery_id : i32) -> Option<Vec<ImageLocation>> {
         true => None,
         false => Some(image_locations),
     }
+}
+
+pub fn create_gallery(gallery_name: String, gallery_desc: String) -> Result<usize, Error> {
+    let conn = &*database::get_db_connection();
+
+    let new_gallery = NewGallery {
+        name: gallery_name,
+        description: gallery_desc,
+    };
+
+    match diesel::insert(&new_gallery)
+        .into(galleries::table)
+        .execute(conn) {
+        Ok(_) => (),
+        Err(e) => return Err(e),
+    };
+
+    //Need to do an extra call to get the inserted gallery id.
+    galleries.select(id)
+        .order(galleries::id.desc())
+        .limit(1)
+        .execute(conn)
 }
