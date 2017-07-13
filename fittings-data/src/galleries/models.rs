@@ -23,6 +23,7 @@ pub struct NewGallery {
 
 #[derive(Identifiable, Queryable, Associations)]
 #[primary_key(gallery_id, image_id)]
+#[derive(Insertable)]
 #[table_name = "gallery_images"]
 #[belongs_to(Gallery)]
 pub struct GalleryImage {

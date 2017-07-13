@@ -62,7 +62,7 @@ pub fn get_images_in_gallery(gallery_id : i32) -> Option<Vec<ImageLocation>> {
     }
 }
 
-pub fn create_gallery(gallery_name: String, gallery_desc: String) -> Result<usize, Error> {
+pub fn create_gallery(gallery_name: String, gallery_desc: String) -> Result<i32, Error> {
     let conn = &*database::get_db_connection();
 
     let new_gallery = NewGallery {
@@ -78,8 +78,27 @@ pub fn create_gallery(gallery_name: String, gallery_desc: String) -> Result<usiz
     };
 
     //Need to do an extra call to get the inserted gallery id.
-    galleries.select(id)
+    match galleries::table
         .order(galleries::id.desc())
-        .limit(1)
-        .execute(conn)
+        .first::<Gallery>(conn) {
+        Ok(gallery) => Ok(gallery.id),
+        Err(e) => Err(e),
+    }
 }
+
+pub fn insert_gallery_image(gallery_id: i32, image_id: i32) -> Result<(), Error> {
+    let conn = &*database::get_db_connection();
+
+    let gallery_image = GalleryImage {
+        gallery_id : gallery_id,
+        image_id : image_id,
+    };
+
+    match diesel::insert(&gallery_image)
+        .into(gallery_images::table)
+        .execute(conn) {
+            Ok(_) => Ok(()),
+            Err(e) => Err(e),
+    }
+}
+

@@ -2,6 +2,9 @@ use rocket::{Data, Rocket};
 use rocket_contrib::{JSON, Value};
 use fittings_data::galleries;
 use rocket::http::Status;
+use std::io::Read;
+use names::Generator;
+use fittings_data::images;
 
 
 
@@ -20,7 +23,7 @@ struct Gallery {
 
 #[derive(Serialize, Deserialize)]
 struct Galleries {
-    galleries : Vec<Gallery>,
+    galleries: Vec<Gallery>,
 }
 
 /// Returns all the image galleries.
@@ -32,7 +35,7 @@ fn get_galleries() -> Option<JSON<Value>> {
         None => return None,
     };
 
-    let mut gallery_vals : Vec<Gallery> = Vec::new();
+    let mut gallery_vals: Vec<Gallery> = Vec::new();
 
     for gallery in galleries {
         let preview_url = match galleries::get_first_image_in_gallery(gallery.id) {
@@ -41,9 +44,9 @@ fn get_galleries() -> Option<JSON<Value>> {
         };
 
         let gallery_val = Gallery {
-            id : gallery.id,
-            name : gallery.name,
-            description : gallery.description,
+            id: gallery.id,
+            name: gallery.name,
+            description: gallery.description,
             preview_url: preview_url,
         };
 
@@ -58,8 +61,8 @@ fn get_galleries() -> Option<JSON<Value>> {
 
 #[derive(Serialize, Deserialize)]
 struct GalleryImages {
-    id : i32,
-    galleries : Vec<ImageLocation>,
+    id: i32,
+    galleries: Vec<ImageLocation>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -71,7 +74,7 @@ struct ImageLocation {
 
 
 #[get("/gallery/<gallery_id>")]
-fn get_gallery_images(gallery_id : i32) -> Option<JSON<Value>> {
+fn get_gallery_images(gallery_id: i32) -> Option<JSON<Value>> {
     let images = match galleries::get_images_in_gallery(gallery_id) {
         Some(images) => images,
         None => return None,
@@ -80,9 +83,9 @@ fn get_gallery_images(gallery_id : i32) -> Option<JSON<Value>> {
     let mut image_vals = Vec::new();
     for image in images {
         let image_val = ImageLocation {
-            id : image.id,
-            name : image.name,
-            url : image.url,
+            id: image.id,
+            name: image.name,
+            url: image.url,
         };
         image_vals.push(image_val);
     }
@@ -96,16 +99,16 @@ fn get_gallery_images(gallery_id : i32) -> Option<JSON<Value>> {
 
 #[derive(Serialize)]
 struct GalleryUploadResponse {
-    id: usize,
+    id: i32,
 }
 
 #[derive(Deserialize)]
-struct CreateGallery{
+struct CreateGallery {
     pub name: String,
     pub description: Option<String>,
 }
 
-#[post("/upload/gallery", data="<gallery>")]
+#[post("/upload/gallery", data = "<gallery>")]
 fn upload_gallery(gallery: JSON<CreateGallery>) -> Result<JSON<GalleryUploadResponse>, Status> {
     let description = match gallery.0.description {
         Some(desc) => desc,
@@ -113,18 +116,35 @@ fn upload_gallery(gallery: JSON<CreateGallery>) -> Result<JSON<GalleryUploadResp
     };
 
     match galleries::create_gallery(gallery.0.name, description) {
-        Ok(id) => Ok(JSON(GalleryUploadResponse {id: id})),
-        Err(e) => Err(Status::InternalServerError),
+        Ok(id) => Ok(JSON(GalleryUploadResponse { id: id })),
+        Err(_) => Err(Status::InternalServerError),
     }
-
 }
 
-#[post("/upload/gallery/<gallery_id>/image",  data = "<image>")]
-fn upload_gallery_image(gallery_id: String, image: Data) -> Result<JSON<Value>, Status> {
-    println!("Attempting to upload gallery image: {}", gallery_id);
+#[post("/upload/gallery/<gallery_id>/image", data = "<image>")]
+fn upload_gallery_image(gallery_id: i32, image: Data) -> Result<(), Status> {
+    let mut image_bytes: Vec<u8> = Vec::new();
+    match image.open().read_to_end(&mut image_bytes) {
+        Ok(_) => (),
+        Err(_) => return Err(Status::InternalServerError),
+    }
 
+    let mut generator = Generator::default();
+    let name = generator.next().unwrap();
 
+    let image_path: String = match images::store_image(name.clone(), image_bytes) {
+        Ok(path) => path,
+        Err(_) => return Err(Status::InternalServerError),
+    };
+    let image_id = match images::insert_image_location(name, image_path.clone()) {
+        Ok(id) => id,
+        Err(_) => return Err(Status::InternalServerError), //ZZZ TODO There must be a better way to write this, 3 match doing the same thing...
+    };
 
+    match galleries::insert_gallery_image(gallery_id, image_id) {
+        Ok(_) => (),
+        Err(_) => return Err(Status::InternalServerError),
+    };
 
-    Err(Status::NotImplemented)
+    Ok(())
 }
