@@ -96,39 +96,35 @@ fn get_gallery_images(gallery_id : i32) -> Option<JSON<Value>> {
 
 #[derive(Serialize)]
 struct GalleryUploadResponse {
-    id: i32,
-    name: String,
-    description: String,
+    id: usize,
 }
 
 #[derive(Deserialize)]
 struct CreateGallery{
-    name: String,
-    description: Option<String>,
+    pub name: String,
+    pub description: Option<String>,
 }
 
 #[post("/upload/gallery", data="<gallery>")]
 fn upload_gallery(gallery: JSON<CreateGallery>) -> Result<JSON<GalleryUploadResponse>, Status> {
-//    let description = match description {
-//        Some(desc) => desc,
-//        None => "".to_string()
-//    };
-//    println!("Attempting to upload gallery: {}: {}", name, description);
-//
-//    let response = GalleryUploadResponse {
-//        id: 0,
-//        name: name,
-//        description: description,
-//    };
+    let description = match gallery.0.description {
+        Some(desc) => desc,
+        None => "".to_string()
+    };
 
-//    Ok(JSON(response));
-    Err(Status::NotImplemented)
+    match galleries::create_gallery(gallery.0.name, description) {
+        Ok(id) => Ok(JSON(GalleryUploadResponse {id: id})),
+        Err(e) => Err(Status::InternalServerError),
+    }
+
 }
 
 #[post("/upload/gallery/<gallery_id>/image",  data = "<image>")]
 fn upload_gallery_image(gallery_id: String, image: Data) -> Result<JSON<Value>, Status> {
     println!("Attempting to upload gallery image: {}", gallery_id);
 
-    //    Ok(JSON(response));
+
+
+
     Err(Status::NotImplemented)
 }
