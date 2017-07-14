@@ -13,7 +13,7 @@ use super::database;
 
 pub mod models;
 
-static IMAGE_PATH: &'static str = "./static/media";
+static IMAGE_PATH: &'static str = "/static/media";
 
 
 pub fn load_image(file_name: String) -> Option<File> {
