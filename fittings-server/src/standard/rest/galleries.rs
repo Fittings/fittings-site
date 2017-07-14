@@ -77,7 +77,7 @@ struct ImageLocation {
 fn get_gallery_images(gallery_id: i32) -> Option<JSON<Value>> {
     let images = match galleries::get_images_in_gallery(gallery_id) {
         Some(images) => images,
-        None => return None,
+        None => Vec::new(),
     };
 
     let mut image_vals = Vec::new();
