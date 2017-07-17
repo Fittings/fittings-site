@@ -134,16 +134,17 @@ fn upload_gallery_image(gallery_id: i32, image: Data) -> Result<(), Status> {
 
     let image_path: String = match images::store_image(name.clone(), image_bytes) {
         Ok(path) => path,
-        Err(_) => return Err(Status::InternalServerError),
+        Err(_) => { println!("image_path"); return Err(Status::InternalServerError)},
     };
+
     let image_id = match images::insert_image_location(name, image_path.clone()) {
         Ok(id) => id,
-        Err(_) => return Err(Status::InternalServerError), //ZZZ TODO There must be a better way to write this, 3 match doing the same thing...
+        Err(_) => { println!("image_id"); return Err(Status::InternalServerError)}, //ZZZ TODO There must be a better way to write this, 3 match doing the same thing...
     };
 
     match galleries::insert_gallery_image(gallery_id, image_id) {
         Ok(_) => (),
-        Err(_) => return Err(Status::InternalServerError),
+        Err(_) => { println!("gallery_image"); return Err(Status::InternalServerError)},
     };
 
     Ok(())
