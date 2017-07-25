@@ -46,7 +46,7 @@ pub fn store_image(image_name: String, image: Vec<u8>) -> io::Result<String> {
 pub fn insert_image_location(image_name: String, image_path: String) -> Result<i32, Error> {
     let conn = &*database::get_db_connection();
 
-    println!("inserting image path {}", image_path.clone());/
+    println!("inserting image path {}", image_path.clone());
 
     let image_location = SubmitImageLocation { name: image_name, url: image_path };
 
