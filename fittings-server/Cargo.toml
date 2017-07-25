@@ -23,7 +23,11 @@ serde = "0.9"
 serde_json = "0.9"
 serde_derive = "0.9"
 
+#argon2rs
+argon2rs = "0.2.5"
+
 rand = "0.3"
+time = "0.1.37"
 
 [dependencies.fittings-data]
 path = "../fittings-data/"

@@ -9,7 +9,8 @@ extern crate fittings_data;
 extern crate rocket;
 extern crate rocket_contrib;
 extern crate rand;
-
+extern crate argon2rs;
+extern crate time;
 
 pub mod examples;
 pub mod standard;
