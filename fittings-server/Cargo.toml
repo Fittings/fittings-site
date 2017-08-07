@@ -14,14 +14,14 @@ names = "0.11.0"
 
 
 #Rocket
-rocket = "0.2.8"
-rocket_contrib = "0.2.8"
-rocket_codegen = "0.2.8"
+rocket = "0.3.0"
+rocket_contrib = "0.3.0"
+rocket_codegen = "0.3.0"
 
 #Serde
-serde = "0.9"
-serde_json = "0.9"
-serde_derive = "0.9"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
 
 #argon2rs
 argon2rs = "0.2.5"

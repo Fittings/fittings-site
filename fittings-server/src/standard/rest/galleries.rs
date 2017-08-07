@@ -1,5 +1,5 @@
 use rocket::{Data, Rocket};
-use rocket_contrib::{JSON, Value};
+use rocket_contrib::{Json, Value};
 use fittings_data::galleries;
 use rocket::http::Status;
 use std::io::Read;
@@ -29,7 +29,7 @@ struct Galleries {
 /// Returns all the image galleries.
 /// This doesn't include the images, images will need to be retrieved in get_gallery_images(...) call
 #[get("/gallery/all")]
-fn get_galleries() -> Option<JSON<Value>> {
+fn get_galleries() -> Option<Json<Value>> {
     let galleries = match galleries::get_all_image_galleries() {
         Some(galleries) => galleries,
         None => return None,
@@ -53,7 +53,7 @@ fn get_galleries() -> Option<JSON<Value>> {
         gallery_vals.push(gallery_val);
     }
 
-    Some(JSON(json!(Galleries {
+    Some(Json(json!(Galleries {
         galleries : gallery_vals,
     })))
 }
@@ -74,7 +74,7 @@ struct ImageLocation {
 
 
 #[get("/gallery/<gallery_id>")]
-fn get_gallery_images(gallery_id: i32) -> Option<JSON<Value>> {
+fn get_gallery_images(gallery_id: i32) -> Option<Json<Value>> {
     let images = match galleries::get_images_in_gallery(gallery_id) {
         Some(images) => images,
         None => Vec::new(),
@@ -90,7 +90,7 @@ fn get_gallery_images(gallery_id: i32) -> Option<JSON<Value>> {
         image_vals.push(image_val);
     }
 
-    Some(JSON(json!(GalleryImages {
+    Some(Json(json!(GalleryImages {
         id : gallery_id,
         galleries : image_vals,
     })))
@@ -109,14 +109,14 @@ struct CreateGallery {
 }
 
 #[post("/upload/gallery", data = "<gallery>")]
-fn upload_gallery(gallery: JSON<CreateGallery>) -> Result<JSON<GalleryUploadResponse>, Status> {
+fn upload_gallery(gallery: Json<CreateGallery>) -> Result<Json<GalleryUploadResponse>, Status> {
     let description = match gallery.0.description {
         Some(desc) => desc,
         None => "".to_string()
     };
 
     match galleries::create_gallery(gallery.0.name, description) {
-        Ok(id) => Ok(JSON(GalleryUploadResponse { id: id })),
+        Ok(id) => Ok(Json(GalleryUploadResponse { id: id })),
         Err(_) => Err(Status::InternalServerError),
     }
 }

@@ -34,7 +34,7 @@ struct Ignored;
 impl<'f> rocket::request::FromForm<'f> for Ignored {
     type Error = ();
 
-    fn from_form_items(_items: &mut rocket::request::FormItems<'f>) -> Result<Self, Self::Error> {
+    fn from_form(_items: &mut rocket::request::FormItems<'f>, is_struct: bool) -> Result<Self, Self::Error> {
         Ok(Ignored)
     }
 }

@@ -12,7 +12,6 @@ extern crate rand;
 extern crate argon2rs;
 extern crate time;
 
-pub mod examples;
 pub mod standard;
 pub mod uptime;
 
