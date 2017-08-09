@@ -13,6 +13,8 @@ pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
     rocket.mount(base_address, routes![get_galleries, get_gallery_images, upload_gallery, upload_gallery_image])
 }
 
+
+
 #[derive(Serialize, Deserialize)]
 struct Gallery {
     id: i32,
