@@ -2,10 +2,12 @@ use rocket::{Data, Rocket};
 use rocket::http::{Cookie, Cookies};
 use rocket_contrib::Json;
 
+use time::Duration;
+
 
 
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![authenticate])
+    rocket.mount(base_address, routes![authenticate, verify_authentication, create_user])
 }
 
 
@@ -16,15 +18,43 @@ struct Credentials {
     pub password: String,
 }
 
-#[post("/authenticate", data = "<credentials>")]
-fn authenticate(mut cookies: Cookies, credentials: Json<Credentials>) {
-    let cred = credentials.into_inner();
+#[post("/authenticate", data = "<credentials_json>")]
+fn authenticate(mut cookies: Cookies, credentials_json: Json<Credentials>) {
+    let cred = credentials_json.into_inner();
+    println!("username: {}", &cred.username);
+    println!("password: {}", &cred.password);
+
     if cred.username == "cmilsom" && cred.password == "pa55w0rd" {
-        println!("{} has been authenticated", cred.username);
-        cookies.add_private(Cookie::new("user_id", "1"));
+        println!("{} has been authenticated", &cred.username);
+        let cookie: Cookie = Cookie::build("username", cred.username)
+            .http_only(true)
+            .max_age(Duration::minutes(2))
+            .finish();
+        cookies.add_private(cookie);
     }
-    println!("username: {}", cred.username);
-    println!("password: {}", cred.password);
+}
+
+#[get("/verify_authentication")]
+fn verify_authentication(mut cookies: Cookies) {
+    let stored_username = cookies.get_private("username");
+    match stored_username {
+        Some(username) => println!("username: {}", username),
+        None => println!("no existing session"),
+    }
+}
+
+#[derive(Deserialize)]
+struct CreateUser {
+    pub username: String,
+    pub password: String,
+}
+
+#[post("/create_user", data = "<user_json>")]
+fn create_user(user_json: Json<CreateUser>) {
+    let create_user = user_json.into_inner();
+
+    println!("username: {}", create_user.username);
+    println!("password: {}", create_user.password);
 }
 
 //*
