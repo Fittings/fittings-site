@@ -1,13 +1,14 @@
 use rocket::{Data, Rocket};
 use rocket::http::{Cookie, Cookies};
 use rocket_contrib::Json;
-
+use fittings_data::users;
+use security;
 use time::Duration;
 
 
 
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![authenticate, verify_authentication, create_user])
+    rocket.mount(base_address, routes![authenticate, verify_authentication, create_user, generate_salt])
 }
 
 
@@ -53,8 +54,13 @@ struct CreateUser {
 fn create_user(user_json: Json<CreateUser>) {
     let create_user = user_json.into_inner();
 
-    println!("username: {}", create_user.username);
-    println!("password: {}", create_user.password);
+    users::create_user(create_user.username, create_user.password, "".to_string());
+}
+
+///Utility method
+#[get("/generate_salt")]
+fn generate_salt() -> String {
+    security::generate_random_salt()
 }
 
 //*

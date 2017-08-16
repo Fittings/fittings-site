@@ -12,7 +12,9 @@ extern crate rocket_contrib;
 extern crate rand;
 extern crate time;
 extern crate argon2rs;
+extern crate dotenv;
 
+pub mod security;
 pub mod standard;
 pub mod uptime;
 

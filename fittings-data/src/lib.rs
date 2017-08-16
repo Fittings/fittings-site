@@ -16,3 +16,4 @@ extern crate dotenv;
 pub mod database;
 pub mod images;
 pub mod galleries;
+pub mod users;
