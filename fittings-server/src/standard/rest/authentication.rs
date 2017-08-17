@@ -1,8 +1,10 @@
-use rocket::{Data, Rocket};
+use rocket::Rocket;
 use rocket::http::{Cookie, Cookies};
 use rocket_contrib::Json;
+use rocket::http::Status;
 use fittings_data::users;
 use security;
+use security::HashResult;
 use time::Duration;
 
 
@@ -50,11 +52,16 @@ struct CreateUser {
     pub password: String,
 }
 
-#[post("/create_user", data = "<user_json>")]
-fn create_user(user_json: Json<CreateUser>) {
-    let create_user = user_json.into_inner();
 
-    users::create_user(create_user.username, create_user.password, "".to_string());
+#[post("/create_user", data = "<user_json>")]
+fn create_user(user_json: Json<CreateUser>) -> Result<(), Status> {
+    let CreateUser {username, password} = user_json.into_inner();
+    let HashResult{hash, salt} = security::hash_data(&password);
+
+    match users::create_user(username, hash, salt) {
+        Ok(_) => Ok(()),
+        Err(_) => Err(Status::InternalServerError),
+    }
 }
 
 ///Utility method
@@ -62,52 +69,3 @@ fn create_user(user_json: Json<CreateUser>) {
 fn generate_salt() -> String {
     security::generate_random_salt()
 }
-
-//*
-// * User Authentication & Token Management
-// * @see https://github.com/skinkade/rocket-jwt-roles-demo/
-// */
-//use argon2rs::verifier::Encoded;
-//use time;
-//
-//#[derive(Deserialize)]
-//pub struct UserToken {
-//    username: String,
-//    issue_time: i64,
-//    expire_time: i64,
-//}
-//
-//impl UserToken {
-//    fn is_expired(&self) -> bool {
-//        time::get_time().sec >= self.expire_time
-//    }
-//}
-
-//
-//
-//use rocket::Data;
-//use rocket::request::Form;
-//use rocket::http::{Cookie, Cookies};
-//use rocket::response::Redirect;
-//
-//#[derive(FromForm)]
-//struct Message {
-//    message: String,
-//}
-//
-//#[post("/cookiez", data = "<message>")]
-//fn submit(mut cookies: Cookies, message: Form<Message>) -> Redirect {
-//    cookies.add(Cookie::new("message", "some message!"));
-//    Redirect::to("/cookie")
-//}
-//
-//#[get("/cookie")]
-//fn index(cookies: Cookies) {
-//    let cookie = cookies.get("message");
-//
-//    match cookie {
-//        Some(ref val) => println!("Cookie!"),
-//        None => println!("No cookie..."),
-//    };
-//
-//}

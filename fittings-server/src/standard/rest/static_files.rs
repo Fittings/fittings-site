@@ -35,6 +35,7 @@ impl<'f> rocket::request::FromForm<'f> for Ignored {
     type Error = ();
 
     fn from_form(_items: &mut rocket::request::FormItems<'f>, is_struct: bool) -> Result<Self, Self::Error> {
+        let _ = is_struct; //Removes the unused variable warning.
         Ok(Ignored)
     }
 }

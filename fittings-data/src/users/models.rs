@@ -10,3 +10,11 @@ pub struct StoredUser {
     pub hash: String,
     pub salt: String,
 }
+
+#[derive(Insertable)]
+#[table_name = "users"]
+pub struct NewUser {
+    pub username: String,
+    pub hash: String,
+    pub salt: String,
+}
