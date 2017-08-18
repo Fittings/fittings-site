@@ -1,7 +1,7 @@
 use database::schema::users;
 
 
-/// Stored user data on the database.
+/// Stored user data on the database for authentication.
 /// IMPORTANT: This should never be visible through the interface.
 #[derive(Identifiable, Queryable, Associations)]
 #[primary_key(id)]

@@ -5,6 +5,7 @@ use rocket::http::Status;
 use std::io::Read;
 use names::Generator;
 use fittings_data::images;
+use standard::rest::authentication::RocketUser;
 
 
 
@@ -111,7 +112,9 @@ struct CreateGallery {
 }
 
 #[post("/upload/gallery", data = "<gallery>")]
-fn upload_gallery(gallery: Json<CreateGallery>) -> Result<Json<GalleryUploadResponse>, Status> {
+fn upload_gallery(user: RocketUser, gallery: Json<CreateGallery>) -> Result<Json<GalleryUploadResponse>, Status> {
+    if user.username != "cmilsom" { return Err(Status::InternalServerError); }
+
     let description = match gallery.0.description {
         Some(desc) => desc,
         None => "".to_string()
@@ -124,7 +127,9 @@ fn upload_gallery(gallery: Json<CreateGallery>) -> Result<Json<GalleryUploadResp
 }
 
 #[post("/upload/gallery/<gallery_id>/image", data = "<image>")]
-fn upload_gallery_image(gallery_id: i32, image: Data) -> Result<(), Status> {
+fn upload_gallery_image(user: RocketUser, gallery_id: i32, image: Data) -> Result<(), Status> {
+    if user.username != "cmilsom" { return Err(Status::InternalServerError); }
+
     let mut image_bytes: Vec<u8> = Vec::new();
     match image.open().read_to_end(&mut image_bytes) {
         Ok(_) => (),

@@ -1,6 +1,8 @@
 use rocket::Rocket;
 use rocket::http::{Cookie, Cookies};
+use rocket::request::{self, FromRequest, Request};
 use rocket_contrib::Json;
+use rocket::outcome::IntoOutcome;
 use rocket::http::Status;
 use fittings_data::users;
 use security;
@@ -41,13 +43,28 @@ fn authenticate(mut cookies: Cookies, credentials_json: Json<Credentials>) -> Re
     Err(Status::Unauthorized)
 }
 
-#[get("/verify_session")]
-fn verify_session(mut cookies: Cookies) -> Result<(), Status> {
-    let stored_username = cookies.get_private("username");
-    match stored_username {
-        Some(_) => Ok(()),
-        None => Err(Status::Unauthorized),
+pub struct RocketUser {
+    pub id: i32,
+    pub username: String,
+}
+
+impl<'a, 'r> FromRequest<'a, 'r> for RocketUser {
+    type Error = ();
+
+    fn from_request(request: &'a Request<'r>) -> request::Outcome<RocketUser, ()> {
+        request.cookies()
+            .get_private("username")
+            .and_then(|cookie| cookie.value().parse().ok())
+            .map(|username| users::get_stored_user_data(&username).unwrap())
+            .map(|user|  RocketUser {id: user.id, username: user.username})
+            .or_forward(())
     }
+}
+
+
+#[get("/verify_session")]
+fn verify_session(_user: RocketUser) -> Result<(), Status> {
+    Ok(())
 }
 
 #[derive(Deserialize)]
