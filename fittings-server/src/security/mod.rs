@@ -21,7 +21,9 @@ pub fn hash_data(data: &String) -> HashResult {
     HashResult { hash: hash, salt: salt }
 }
 
-
+pub fn is_same_hash(data: &String, hash: &String, salt: &String) -> bool {
+    hash == &self::hash(data, salt)
+}
 
 fn hash(data: &String, salt: &String) -> String {
     //initialize argon

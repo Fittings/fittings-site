@@ -1,6 +1,8 @@
 use database::schema::users;
 
 
+/// Stored user data on the database.
+/// IMPORTANT: This should never be visible through the interface.
 #[derive(Identifiable, Queryable, Associations)]
 #[primary_key(id)]
 #[table_name = "users"]
@@ -11,6 +13,10 @@ pub struct StoredUser {
     pub salt: String,
 }
 
+
+
+/// New user data to be stored on the server.
+/// The hash and salt should be generated from the fittings_server::security module.
 #[derive(Insertable)]
 #[table_name = "users"]
 pub struct NewUser {

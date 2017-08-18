@@ -10,7 +10,7 @@ use time::Duration;
 
 
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    rocket.mount(base_address, routes![authenticate, verify_authentication, create_user, generate_salt])
+    rocket.mount(base_address, routes![authenticate, verify_session, create_user, generate_salt])
 }
 
 
@@ -22,27 +22,31 @@ struct Credentials {
 }
 
 #[post("/authenticate", data = "<credentials_json>")]
-fn authenticate(mut cookies: Cookies, credentials_json: Json<Credentials>) {
-    let cred = credentials_json.into_inner();
-    println!("username: {}", &cred.username);
-    println!("password: {}", &cred.password);
+fn authenticate(mut cookies: Cookies, credentials_json: Json<Credentials>) -> Result<(), Status> {
+    let Credentials{username, password} = credentials_json.into_inner();
+    println!("attempting to authenticate: {}", &username); //ZZZ TODO Store attempts to DB
 
-    if cred.username == "cmilsom" && cred.password == "pa55w0rd" {
-        println!("{} has been authenticated", &cred.username);
-        let cookie: Cookie = Cookie::build("username", cred.username)
-            .http_only(true)
-            .max_age(Duration::minutes(2))
-            .finish();
-        cookies.add_private(cookie);
+    if let Some(user) = users::get_stored_user_data(&username) {
+        if security::is_same_hash(&password, &user.hash, &user.salt) {
+            let cookie: Cookie = Cookie::build("username", username)
+                .http_only(true)
+                .max_age(Duration::minutes(2))
+                .finish();
+            cookies.add_private(cookie);
+
+            return Ok(())
+        }
     }
+
+    Err(Status::Unauthorized)
 }
 
-#[get("/verify_authentication")]
-fn verify_authentication(mut cookies: Cookies) {
+#[get("/verify_session")]
+fn verify_session(mut cookies: Cookies) -> Result<(), Status> {
     let stored_username = cookies.get_private("username");
     match stored_username {
-        Some(username) => println!("username: {}", username),
-        None => println!("no existing session"),
+        Some(_) => Ok(()),
+        None => Err(Status::Unauthorized),
     }
 }
 
