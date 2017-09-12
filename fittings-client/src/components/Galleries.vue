@@ -1,8 +1,18 @@
 <template>
   <div class="galleries">
     <h1>Galleries</h1>
-    <button class="btn" v-on:click="getGalleries()">get Galleries</button>
-    <span camSpan>{{galleries}}</span>
+    <button class="btn" v-on:click="getGalleries()">Refresh</button>
+    <div id="galleries">
+      <div class="row" v-for="(gallery, index) in galleries" v-bind:key="index">
+        <div class="column">
+          <h1>{{ gallery.name }}</h1>
+          <section>{{ gallery.description }}</section>
+          <img v-bind:src="gallery.preview_url" v-bind:alt="gallery.description"/>
+
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,17 +27,19 @@ export default {
   },
   methods: {
     getGalleries () {
-      console.log('get me')
-      this.$http
-      .get('gallery/all', (data) => {
-        console.log('Here I am')
-        console.log(data)
-        this.galleries = data.get(0)
+      this.$http.get('gallery/all')
+      .then(data => {
+        this.galleries = data.body.galleries
+        // this.galleries.forEach(gallery => {
+        //   // gallery.preview_url = require('../' + gallery.preview_url)
+        // })
       }, response => {
         console.log(response)
       })
-      console.log('doRequest')
     }
+  },
+  created: function () {
+    this.getGalleries()
   }
 }
 </script>
