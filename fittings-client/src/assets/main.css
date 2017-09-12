@@ -1,7 +1,9 @@
 body {
-  margin: 0;
-  padding: 0;
-  border: 0;
+  color: #212121;
+}
+
+a {
+  color:#4CAF50;
 }
 
 .header {
@@ -11,6 +13,7 @@ body {
   box-shadow: 0 0 9px 0 rgba(0,0,0,.3);
   max-width: 100%;
   display: flex;
+  margin-bottom: 5rem;
 }
 
 .header-centre {
@@ -49,4 +52,14 @@ body {
   padding-right: 1rem;
 }
 
-.navigation-item {}
+.main-content {
+  width: 80%;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+#f-body {
+  width: 100%;
+  color: red;
+}
+
