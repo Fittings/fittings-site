@@ -7,13 +7,15 @@ a {
 }
 
 .header {
-  position: relative;
+  position: fixed;
   background: #f4f5f6;
   height: 5rem;
   box-shadow: 0 0 9px 0 rgba(0,0,0,.3);
+  border-bottom: 1px solid rgb(76, 175, 80, 0.8);
   max-width: 100%;
+  width: 100%;
   display: flex;
-  margin-bottom: 5rem;
+  z-index: 100;
 }
 
 .header-centre {
@@ -32,7 +34,7 @@ a {
   display: flex;
   align-items: center;
   font-weight: 100;
-  font-size: 2.5rem;
+  font-size: 1em;
 }
 
 .navigation-logo {
@@ -53,8 +55,8 @@ a {
 }
 
 .main-content {
-  width: 80%;
-  max-width: 80rem;
+  width: 90%;
+  max-width: 140rem;
   margin: 0 auto;
 }
 

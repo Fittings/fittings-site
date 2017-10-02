@@ -13,10 +13,7 @@
             </nav>
           </div>
         </header>
-        
-      <div class="main-content">
         <router-view></router-view>
-      </div>
     </main>
   </div>
 </template>
