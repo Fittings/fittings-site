@@ -1,9 +1,15 @@
 body {
   color: #212121;
+  line-height: 25px;
+  font-size: 18px;
 }
 
 a {
-  color:#4CAF50;
+  color: rgb(0, 159, 101);
+}
+
+.loader {
+  border: 1px solid green;
 }
 
 .header {
@@ -11,7 +17,7 @@ a {
   background: #f4f5f6;
   height: 5rem;
   box-shadow: 0 0 9px 0 rgba(0,0,0,.3);
-  border-bottom: 1px solid rgb(76, 175, 80, 0.8);
+  /* border-bottom: 1px solid rgb(76, 175, 80, 0.8); */
   max-width: 100%;
   width: 100%;
   display: flex;
@@ -63,6 +69,8 @@ a {
 .card {
   position: relative;
   margin: .5rem 0 1rem 0;
+  padding: 0.3rem;
+  color: black;
   background-color: #fff;
   -webkit-transition: -webkit-box-shadow .25s;
   transition: -webkit-box-shadow .25s;
@@ -81,4 +89,216 @@ a {
   width: 100%;
   color: red;
 }
+
+
+
+.slide-load-anim {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.fade-in-anim {
+  animation: fade-in 10s ease-in-out both;
+}
+
+ @keyframes kenburns-bottom {
+  0% {
+    transform: scale(1) translateY(0);
+    transform-origin: 50% 84%;
+  }
+  100% {
+    transform: scale(1.25) translateY(15px);
+    transform-origin: bottom;
+  }
+}
+
+
+ @keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+ @keyframes slide-in-left {
+  0% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+ @keyframes bg-pan-bottom {
+  0% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 50% 100%;
+  }
+}
+
+
+ @keyframes fade-in-bck {
+  0% {
+    transform: translateZ(80px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-bl
+ * ----------------------------------------
+ */
+@keyframes fade-in-bl {
+  0% {
+    transform: translateX(-50px) translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-bottom
+ * ----------------------------------------
+ */
+@keyframes fade-in-bottom {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-br
+ * ----------------------------------------
+ */
+@keyframes fade-in-br {
+  0% {
+    transform: translateX(50px) translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-fwd
+ * ----------------------------------------
+ */
+@keyframes fade-in-fwd {
+  0% {
+    transform: translateZ(-80px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-left
+ * ----------------------------------------
+ */
+@keyframes fade-in-left {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-right
+ * ----------------------------------------
+ */
+@keyframes fade-in-right {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-tl
+ * ----------------------------------------
+ */
+@keyframes fade-in-tl {
+  0% {
+    transform: translateX(-50px) translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-top
+ * ----------------------------------------
+ */
+@keyframes fade-in-top {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in-tr
+ * ----------------------------------------
+ */
+@keyframes fade-in-tr {
+  0% {
+    transform: translateX(50px) translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+}
+/**
+ * ----------------------------------------
+ * animation fade-in
+ * ----------------------------------------
+ */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 

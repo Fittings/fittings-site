@@ -1,17 +1,17 @@
 <template>
-  <div class="galleries">
+  <div class="galleries" style="width: 100%;">
     <div class="hero">
-      <img class="hero-image" v-bind:src="heroPreviewUrl"/>
+      <img class="hero-image fade-in-anim " v-bind:src="heroPreviewUrl"/>
       <div class="hero-text">
-        <h1>Photos</h1>
-        <p><em>From wherever.</em></p>
+        <h1>Galleries</h1>
+        <p><em>Of various things</em></p>
       </div>
     </div>
     <div class="main-content">
       <div class="row gallery-row" v-for="(gallery, index) in galleries" v-bind:key="index">
         <div class="column">
           <a class="gallery-border">
-            <div class="card">
+            <div class="card slide-load-anim">
               <div class="card-image">
                 <img class="gallery-preview" v-bind:src="gallery.preview_url" v-bind:alt="gallery.description"/>
               </div>
@@ -42,10 +42,20 @@ export default {
     getGalleries () {
       this.$http.get('gallery/all')
       .then(data => {
-        this.galleries = data.body.galleries
-        if (this.galleries !== null) {
-          let randImageIndex = (Math.round(Math.random() * this.galleries.length))
-          this.heroPreviewUrl = this.galleries[randImageIndex].preview_url
+        this.galleries = []
+        let galleryArray = this.galleries
+
+        for (let gallery of data.body.galleries) {
+          let img = new Image()
+          img.src = gallery.preview_url
+          img.onload = function () {
+            galleryArray.push(gallery)
+          }
+        }
+
+        if (data.body.galleries !== null) {
+          let randImageIndex = (Math.round(Math.random() * (data.body.galleries.length - 1)))
+          this.heroPreviewUrl = data.body.galleries[randImageIndex].preview_url
         }
       }, response => {
         console.log(response)
@@ -70,11 +80,12 @@ export default {
     width: 100%;
     height: 60rem;
     object-fit: cover;
-    -webkit-mask-image: -webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+    -webkit-mask-image: -webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,0.9)), to(rgba(255,255,255,0)));
     /* box-shadow: 0 4px 100px -100px white; */
     border-bottom: 1px solid rgba(0, 0, 0, 1);
-
   }
+
+
 
   .hero-text {
     text-align: center;
@@ -102,12 +113,12 @@ export default {
   }
 
   .gallery-row {
+
   }
 
   .gallery-border {
     cursor: pointer;
   }
-
 
   .gallery-border > h2 {
     color: red;
@@ -123,11 +134,10 @@ export default {
     height: 350px;
     object-fit: cover;
     z-index: -1;
-
   }
 
   .card:hover {
-    box-shadow:0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2)
+    box-shadow:0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
   }
   .column:hover .gallery-preview {
     filter: saturate(110%) brightness(1.1);
