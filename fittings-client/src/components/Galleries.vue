@@ -11,7 +11,7 @@
       <div class="row gallery-row" v-for="(gallery, index) in galleries" v-bind:key="index">
         <div class="column">
           <a class="gallery-border">
-            <div class="card slide-load-anim">
+            <div class="card slide-load-anim" v-bind:tabindex="gallery.tab_index">
               <div class="card-image">
                 <img class="gallery-preview" v-bind:src="gallery.preview_url" v-bind:alt="gallery.description"/>
               </div>
@@ -40,16 +40,18 @@ export default {
   },
   methods: {
     getGalleries () {
-      this.$http.get('gallery/all')
+      this.$http.get('/api/gallery/all')
       .then(data => {
         this.galleries = []
         let galleryArray = this.galleries
 
-        for (let gallery of data.body.galleries) {
+        let count = 0
+        for (let i = 0; i < data.body.galleries.length; i++) {
           let img = new Image()
-          img.src = gallery.preview_url
+          img.src = data.body.galleries[i].preview_url
           img.onload = function () {
-            galleryArray.push(gallery)
+            data.body.galleries[i].tab_index = ++count
+            galleryArray.push(data.body.galleries[i])
           }
         }
 
@@ -84,9 +86,7 @@ export default {
     /* box-shadow: 0 4px 100px -100px white; */
     border-bottom: 1px solid rgba(0, 0, 0, 1);
   }
-
-
-
+ 
   .hero-text {
     text-align: center;
     position: absolute;
@@ -112,10 +112,6 @@ export default {
     z-index: 1;
   }
 
-  .gallery-row {
-
-  }
-
   .gallery-border {
     cursor: pointer;
   }
@@ -134,7 +130,9 @@ export default {
     height: 350px;
     object-fit: cover;
     z-index: -1;
+    user-select: none;
   }
+
 
   .card:hover {
     box-shadow:0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2);
