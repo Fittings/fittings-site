@@ -10,10 +10,14 @@ mod rest {
 
 /// Mounts all the standard REST routes to the rocket instance.
 pub fn mount(rocket: Rocket, base_address: &str) -> Rocket {
-    let rocket = rest::authentication::mount(rocket, base_address);
+    //Static data loader
     let rocket = rest::static_files::mount(rocket, base_address);
-    let rocket = rest::image_loader::mount(rocket, base_address);
-    let rocket = rest::galleries::mount(rocket, base_address);
+
+    //REST API
+    let api_address = [base_address, "api/"].concat();
+    let rocket = rest::authentication::mount(rocket, api_address.as_str());
+    let rocket = rest::image_loader::mount(rocket, api_address.as_str());
+    let rocket = rest::galleries::mount(rocket, api_address.as_str());
 
     rocket
 }
