@@ -1,27 +1,26 @@
 <template>
-  <div class="galleries" style="width: 100%;">
+  <div class="gallery" style="width: 100%;">
     <div class="hero">
       <img class="hero-image fade-in-anim " v-bind:src="heroPreviewUrl"/>
       <div class="hero-text">
-        <h1>Galleries</h1>
-        <p><em>Of various things</em></p>
+        <h1>{{ $title }}</h1>
       </div>
     </div>
     <div class="main-content">
-      <div class="row gallery-row" v-for="(gallery, index) in galleries" v-bind:key="index">
+      <div class="row gallery-row" v-for="(photo, index) in photos" v-bind:key="index">
         <div class="column">
-          <router-link class="gallery-border" :to="{ path: 'gallery/' + galleries[index].id, params: { title: galleries[index].gallery_name}}">
-            <div class="card slide-load-anim" v-bind:tabindex="gallery.tab_index">
+          <a class="gallery-border">
+            <div class="card slide-load-anim" v-bind:tabindex="photo.tab_index">
               <div class="card-image">
-                <img class="gallery-preview" v-bind:src="gallery.preview_url" v-bind:alt="gallery.description"/>
+                <img class="gallery-preview" v-bind:src="photo.url" v-bind:alt="photo.description"/>
               </div>
               <div class="card-content">
-                <h2>{{ gallery.name }}</h2>
-                <p><em>{{ gallery.description }}</em></p>
+                <h2>{{ photo.name }}</h2>
+                <p><em>{{ photo.description }}</em></p>
               </div>              
               </section>
             </div>
-          </router-link>
+          </a>
         </div>
       </div>
     </div>
@@ -32,32 +31,22 @@
 export default {
   data () {
     return {
+      title: '',
       msg: 'This is the galleries page!',
-      name: 'Cameron',
-      galleries: null,
+      photos: null,
       heroPreviewUrl: null
     }
   },
   methods: {
     getGalleries () {
-      this.$http.get('/api/gallery/all')
+      this.$http.get('/api/gallery/' + this.$route.params.id)
       .then(data => {
-        this.galleries = []
-        let galleryArray = this.galleries
-
-        let count = 0
-        for (let i = 0; i < data.body.galleries.length; i++) {
-          let img = new Image()
-          img.src = data.body.galleries[i].preview_url
-          img.onload = function () {
-            data.body.galleries[i].tab_index = ++count
-            galleryArray.push(data.body.galleries[i])
-          }
-        }
+        this.title = data.body
+        this.photos = data.body.galleries
 
         if (data.body.galleries !== null) {
           let randImageIndex = (Math.round(Math.random() * (data.body.galleries.length - 1)))
-          this.heroPreviewUrl = data.body.galleries[randImageIndex].preview_url
+          this.heroPreviewUrl = data.body.galleries[randImageIndex].url
         }
       }, response => {
         console.log(response)
@@ -72,7 +61,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
   .main-content {
     margin-top: -10rem;
   }
@@ -120,7 +108,6 @@ export default {
   .gallery-description > p {
     margin-top: 0;
   }
-
 
 
 </style>
